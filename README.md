@@ -1,24 +1,60 @@
-# README
+# BlogApp
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Este proyecto es una aplicación web de ejemplo construida con Ruby on Rails y PostgreSQL. Utiliza Docker para facilitar la configuración y la ejecución.
 
-Things you may want to cover:
+## Requisitos
 
-* Ruby version
+- Docker
+- Docker Compose
 
-* System dependencies
+## Configuración y Ejecución
 
-* Configuration
+### Paso 1: Clonar el repositorio
 
-* Database creation
+```sh
+git clone https://github.com/tu-usuario/blogapp.git
+cd blogapp
+```
 
-* Database initialization
+### Paso 2: Construir la imagen de Docker
+Construye la imagen de Docker para el servicio blogapp-web.
 
-* How to run the test suite
+```sh
+docker-compose build
+```
 
-* Services (job queues, cache servers, search engines, etc.)
+### Paso 3: Ejecutar las migraciones de la base de datos
 
-* Deployment instructions
+```sh
+docker-compose run blogapp-web rails db:create db:migrate
+```
 
-* ...
+### Paso 4: Iniciar la aplicación
+
+```sh
+docker-compose up -d
+```
+
+### Opcionales
+##### Para aplicar alguna actualización en el Gemfile:
+```sh
+docker-compose run blogapp-web bundle install
+```
+##### Para acceder al Bash:
+```sh
+docker exec -it app_name /bin/bash
+```
+##### Puedes consultar app_name con el siguiente comando (aunque por defecto, debería ser: blogapp_blogapp-web_1):
+```sh
+docker ps
+```
+
+#### Para usar pry-rails con Docker:
+Cuando ya hayas ejecutado `docker-compose up -d`, ubica el `binding.pry` donde desees revisar el código.
+Luego, identificar el Container donde está corriendo el proyecto usando el comando `docker ps`.
+
+Ejecuta el siguiente código:
+```sh
+docker attach ID_DEL_CONTENEDOR (Ej: 75cde1ab8133)
+```
+El cual se encarga de mostrar los logs en la consola donde te encuentres presente y parar el proceso donde hayas puesto el `binding.pry`.
